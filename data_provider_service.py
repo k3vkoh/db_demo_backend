@@ -93,6 +93,25 @@ class DataProviderService:
 
         return updated_post
 
+    def delete_post(self, post_id):
+        current_post = DataProviderService().get_post(post_id=post_id)
+
+        if current_post:
+            sql_delete_post = """delete from post where id = %s"""
+
+            input_values = (post_id,)
+
+            try:
+                self.cursor.execute(sql_delete_post, input_values)
+                self.conn.commit()
+            except pymysql.Error as exc:
+                self.conn.rollback()
+                print(exc)
+
+        return current_post
+
+
+
     # Confirm user can log in, compare hashed passwords
     def is_user_valid(self, username, passwd):
         sql = """select id, username, password from user_table where username = %s"""

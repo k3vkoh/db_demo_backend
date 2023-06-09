@@ -72,6 +72,12 @@ def update_post(post_id):
     else:
         return jsonify({"post": updated_post})
 
+def delete_post(post_id):
+    deleted_post = DATA_PROVIDER.delete_post(post_id)
+    if not deleted_post:
+        return make_response('', 404)
+    else:
+        return jsonify({"post": deleted_post})
 
 def register():
     new_user_id = None
